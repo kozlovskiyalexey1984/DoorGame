@@ -1,5 +1,5 @@
 (() => {
-  const GAME_KEYS = ['snake', 'minesweeper', 'tetris', 'sokoban', 'arkanoid'];
+  const GAME_KEYS = ['snake', 'minesweeper', 'tetris', 'sokoban', 'arkanoid', 'pacman', 'bubbleshooter', 'collapse'];
   const PASSES = 2; // сколько раз общий список игр проходит забег -> ROOM_COUNT = GAME_KEYS.length * PASSES
   const ROOM_COUNT = GAME_KEYS.length * PASSES;
   const MAX_LIVES = 3;
