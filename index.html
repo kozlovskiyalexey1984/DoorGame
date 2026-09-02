@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0f0d17">
+<title>Открывание дверей</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ЭКРАН КОРИДОРА -->
+<main id="corridor" class="screen">
+  <header class="status-bar">
+    <div class="status-item" id="lives-display" aria-label="Жизни"></div>
+    <div class="status-item status-score">
+      <span id="score-display">0</span>
+      <span class="status-label">очков</span>
+    </div>
+  </header>
+
+  <div class="corridor-stage">
+    <div class="room-label" id="room-label">Комната 1 из 6</div>
+
+    <button id="door" class="door" type="button" aria-label="Открыть дверь">
+      <svg viewBox="0 0 200 260" class="door-svg">
+        <rect x="20" y="10" width="160" height="240" rx="80" class="door-frame"/>
+        <rect x="34" y="24" width="132" height="212" rx="66" class="door-panel"/>
+        <circle cx="118" cy="132" r="7" class="door-handle"/>
+      </svg>
+      <span class="door-hint">Нажми, чтобы открыть</span>
+    </button>
+
+    <div class="progress-dots" id="progress-dots"></div>
+  </div>
+
+  <p class="corridor-message" id="corridor-message">
+    За дверью — случайная игра. Проходи испытания, копи очки, не теряй все жизни.
+  </p>
+</main>
+
+<!-- ОВЕРЛЕЙ МИНИ-ИГРЫ -->
+<section id="game-overlay" class="overlay hidden">
+  <header class="overlay-bar">
+    <span id="overlay-game-name" class="overlay-game-name">Игра</span>
+    <span id="overlay-status" class="overlay-status"></span>
+  </header>
+  <div id="game-root" class="game-root"></div>
+</section>
+
+<!-- ЭКРАН РЕЗУЛЬТАТА (победа / поражение / финал забега) -->
+<section id="result-screen" class="overlay hidden">
+  <div class="result-card">
+    <h2 id="result-title">Забег завершён</h2>
+    <p id="result-subtitle"></p>
+    <div class="result-stats" id="result-stats"></div>
+    <button id="result-button" class="primary-button" type="button">Играть заново</button>
+  </div>
+</section>
+
+<script src="snake.js"></script>
+<script src="minesweeper.js"></script>
+<script src="app.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js').catch(() => {
+        // Офлайн-кэш не критичен для работы игры — просто не активируется без него
+      });
+    });
+  }
+</script>
+</body>
+</html>
