@@ -1,6 +1,6 @@
 // Версия кэша. Меняй эту строку при каждом обновлении файлов игры,
 // иначе у игроков на телефонах может застрять старая версия.
-const CACHE_VERSION = 'door-game-v3';
+const CACHE_VERSION = 'door-game-v4';
 
 const ASSETS = [
   './',
@@ -15,6 +15,10 @@ const ASSETS = [
   './pacman.js',
   './bubbleshooter.js',
   './collapse.js',
+  './bejeweled.js',
+  './lines.js',
+  './xonix.js',
+  './digger.js',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
