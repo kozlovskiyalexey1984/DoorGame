@@ -1,6 +1,17 @@
 (() => {
-  const ROOM_COUNT = 6;
+  const GAME_KEYS = ['snake', 'minesweeper', 'tetris', 'sokoban', 'arkanoid'];
+  const PASSES = 2; // сколько раз общий список игр проходит забег -> ROOM_COUNT = GAME_KEYS.length * PASSES
+  const ROOM_COUNT = GAME_KEYS.length * PASSES;
   const MAX_LIVES = 3;
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
 
   const el = {
     corridor: document.getElementById('corridor'),
@@ -26,10 +37,19 @@
   let currentDestroy = null;
 
   function buildSequence() {
-    const order = Math.random() < 0.5 ? ['snake', 'minesweeper'] : ['minesweeper', 'snake'];
+    if (window.__forceSequence) return window.__forceSequence.slice();
+
     const seq = [];
-    for (let i = 0; i < ROOM_COUNT; i++) {
-      seq.push({ game: order[i % 2], level: Math.floor(i / 2) + 1 });
+    let prevGame = null;
+    for (let pass = 1; pass <= PASSES; pass++) {
+      let round = shuffle(GAME_KEYS);
+      if (prevGame && round[0] === prevGame) {
+        // не давать одной и той же игре выпасть два раза подряд на стыке раундов
+        const swapWith = 1 + Math.floor(Math.random() * (round.length - 1));
+        [round[0], round[swapWith]] = [round[swapWith], round[0]];
+      }
+      round.forEach(game => seq.push({ game, level: pass }));
+      prevGame = round[round.length - 1];
     }
     return seq;
   }
@@ -92,6 +112,7 @@
   }
 
   function closeOverlay() {
+    if (currentDestroy) { try { currentDestroy(); } catch (e) { /* игра уже могла сама себя очистить */ } }
     hide(el.overlay);
     el.gameRoot.innerHTML = '';
     currentDestroy = null;
